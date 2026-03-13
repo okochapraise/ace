@@ -7,11 +7,16 @@ from autocorrect import Speller
 router = APIRouter()
 spell = Speller(lang="en")
 
-def clean_ocr_text(text: str) -> str:
-    return re.sub(r'[^\x20-\x7E]', '', re.sub(r'\s+', ' ', text)).strip()
+
+def clean_text(text: str) -> str:
+    """Remove non-ASCII chars and extra spaces."""
+    return re.sub(r"[^\x20-\x7E]", "", re.sub(r"\s+", " ", text)).strip()
+
 
 def autocorrect_text(text: str) -> str:
+    """Autocorrect each word in the text."""
     return " ".join(spell(word) for word in text.split())
+
 
 @router.post("/ocr")
 async def ocr_endpoint(file: UploadFile = File(...)):
@@ -22,20 +27,21 @@ async def ocr_endpoint(file: UploadFile = File(...)):
     filename = file.filename or ""
     mime_type = file.content_type or ""
 
-    # Large PDF → stream directly
-    if filename.lower().endswith(".pdf") or mime_type.lower() == "application/pdf" or content[:4] == b"%PDF":
+    # Stream large PDFs directly
+    if filename.lower().endswith(".pdf") or mime_type.lower() == "application/pdf" or content.startswith(b"%PDF"):
         if should_stream_pdf(content):
             return StreamingResponse(stream_text_from_pdf(content), media_type="text/plain")
 
-    # Normal extraction
     text = extract_text(content, filename, mime_type)
 
     if not text.strip() or "Error" in text:
-        return JSONResponse(content={"text": "", "message": text if "Error" in text else "No readable text found"})
+        return JSONResponse(
+            content={"text": "", "message": text if "Error" in text else "No readable text found"}
+        )
 
-    # Clean + autocorrect small outputs
-    cleaned_text = clean_ocr_text(text)
-    if len(cleaned_text) < 50000:
-        cleaned_text = autocorrect_text(cleaned_text)
+    # Clean + autocorrect if small
+    cleaned = clean_text(text)
+    if len(cleaned) < 100_000:
+        cleaned = autocorrect_text(cleaned)
 
-    return JSONResponse(content={"text": cleaned_text})
+    return JSONResponse(content={"text": cleaned})
