@@ -47,39 +47,41 @@ class _MoodScreenState extends ConsumerState<MoodScreen> {
         backgroundColor: Colors.red,
         centerTitle: true,
       ),
-      body: Padding(
+      body: SingleChildScrollView(
         padding: const EdgeInsets.all(20),
         child: Column(
           children: [
-            /// MOOD SELECTION (VERTICAL)
+            
             Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: moods.map((mood) {
                 return Padding(
                   padding: const EdgeInsets.only(bottom: 12),
-                  child: ChoiceChip(
-                    label: Text(
-                      mood.toUpperCase(),
-                      style: const TextStyle(fontSize: 16),
-                    ),
-                    selected: selectedMood == mood,
-                    selectedColor: Colors.red.shade200,
-                    onSelected: (_) {
-                      setState(() {
-                        selectedMood = mood;
-                      });
-                    },
-                  ),
+                  child: Card(
+  child: ListTile(
+    title: Text(
+      mood.toUpperCase(),
+      style: const TextStyle(fontSize: 16),
+    ),
+    trailing: selectedMood == mood
+        ? const Icon(Icons.check, color: Colors.red)
+        : null,
+    onTap: () {
+      setState(() {
+        selectedMood = mood;
+      });
+    },
+  ),
+),
                 );
               }).toList(),
             ),
 
             const SizedBox(height: 25),
 
-            /// RECOMMENDATION RESULT
+           
             if (recommendationAsync != null)
-              Expanded(
-                child: recommendationAsync.when(
+             recommendationAsync.when(
                   loading: () =>
                       const Center(child: CircularProgressIndicator()),
                   error: (e, _) => Center(child: Text("Error: $e")),
@@ -213,7 +215,7 @@ class _MoodScreenState extends ConsumerState<MoodScreen> {
                     ),
                   ),
                 ),
-              ),
+              
           ],
         ),
       ),

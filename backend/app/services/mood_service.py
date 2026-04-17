@@ -3,7 +3,7 @@ import urllib.parse
 from dotenv import load_dotenv
 import google.generativeai as genai
 
-# Load environment variables
+
 load_dotenv()
 
 genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
@@ -12,9 +12,6 @@ MODEL_NAME = "models/gemini-2.5-flash"
 model = genai.GenerativeModel(MODEL_NAME)
 
 
-# -----------------------------
-# Base study recommendations
-# -----------------------------
 MOOD_BASE = {
     "happy": {
         "activity": "Full study session with practice questions",
@@ -35,9 +32,6 @@ MOOD_BASE = {
 }
 
 
-# -----------------------------
-# AI Generation
-# -----------------------------
 def generate_ai_support(mood: str) -> dict:
     """
     Generate encouragement and music suggestion using AI.
@@ -69,7 +63,6 @@ Example:
         response = model.generate_content(prompt)
         text = response.text.strip()
 
-        # Try parsing JSON safely
         import json
         import re
 
@@ -89,9 +82,6 @@ Example:
         }
 
 
-# -----------------------------
-# Main recommendation function
-# -----------------------------
 def get_mood_recommendation(mood: str) -> dict:
     mood = mood.lower()
 
@@ -107,7 +97,7 @@ def get_mood_recommendation(mood: str) -> dict:
 
     music_query = ai_data.get("music_query", "focus music")
 
-    # Create Spotify search URL
+
     encoded_query = urllib.parse.quote(music_query)
     spotify_url = f"https://open.spotify.com/search/{encoded_query}"
 

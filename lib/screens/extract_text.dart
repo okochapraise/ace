@@ -33,41 +33,61 @@ class _ExtractedTextScreenState extends State<ExtractedTextScreen> {
           children: [
             /// 📄 EXTRACTED TEXT
             Expanded(
-              child: SingleChildScrollView(
-                child: Text(
-                  widget.text,
-                  style: const TextStyle(fontSize: 16),
-                ),
-              ),
-            ),
+  child: Card(
+    child: Padding(
+      padding: const EdgeInsets.all(16),
+      child: SingleChildScrollView(
+        child: Text(
+          widget.text,
+          style: const TextStyle(fontSize: 16, height: 1.5),
+        ),
+      ),
+    ),
+  ),
+),
 
             const SizedBox(height: 16),
 
             /// 🔊 TTS CONTROLS
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                ElevatedButton.icon(
-                  icon: Icon(isSpeaking ? Icons.volume_up : Icons.volume_up),
-                  label: const Text("Read Aloud"),
-                  onPressed: widget.text.trim().isEmpty
-                      ? null
-                      : () async {
-                          setState(() => isSpeaking = true);
-                          await _tts.speak(widget.text);
-                          setState(() => isSpeaking = false);
-                        },
-                ),
-                ElevatedButton.icon(
-                  icon: const Icon(Icons.stop),
-                  label: const Text("Stop"),
-                  onPressed: () async {
-                    setState(() => isSpeaking = false);
-                    await _tts.stop();
-                  },
-                ),
-              ],
-            ),
+  children: [
+    Expanded(
+      child: ElevatedButton.icon(
+        icon: const Icon(Icons.volume_up),
+        label: const Text(
+          "Read Aloud",
+          overflow: TextOverflow.ellipsis,
+        ),
+        style: ElevatedButton.styleFrom(
+          padding: const EdgeInsets.symmetric(vertical: 14),
+        ),
+        onPressed: widget.text.trim().isEmpty
+            ? null
+            : () async {
+                setState(() => isSpeaking = true);
+                await _tts.speak(widget.text);
+                setState(() => isSpeaking = false);
+              },
+      ),
+    ),
+
+    const SizedBox(width: 12),
+
+    Expanded(
+      child: ElevatedButton.icon(
+        icon: const Icon(Icons.stop),
+        label: const Text("Stop"),
+        style: ElevatedButton.styleFrom(
+          padding: const EdgeInsets.symmetric(vertical: 14),
+        ),
+        onPressed: () async {
+          setState(() => isSpeaking = false);
+          await _tts.stop();
+        },
+      ),
+    ),
+  ],
+),
 
             const SizedBox(height: 16),
 
@@ -84,7 +104,7 @@ class _ExtractedTextScreenState extends State<ExtractedTextScreen> {
               onPressed: widget.text.trim().isEmpty
                   ? null
                   : () {
-                      _tts.stop(); // stop reading before navigating
+                      _tts.stop(); 
                       Navigator.push(
                         context,
                         MaterialPageRoute(

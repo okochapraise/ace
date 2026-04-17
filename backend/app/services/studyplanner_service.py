@@ -9,7 +9,7 @@ def generate_study_plan(
 
     sessions: List[Dict] = []
 
-    # Decide session size based on mood
+   
     if mood.lower() == "tired":
         block = 10
         difficulty = "easy"

@@ -11,9 +11,6 @@ from app.services.flashcard_service import generate_flashcards, compute_session_
 
 router = APIRouter()
 
-# ----------------------------
-# Request Models
-# ----------------------------
 class FlashcardRequest(BaseModel):
     text: str
     available_minutes: int
@@ -21,13 +18,10 @@ class FlashcardRequest(BaseModel):
 
 
 class FlashcardAnswerRequest(BaseModel):
-    flashcards: List[dict]  # list of generated flashcards
-    answers: List[bool]     # user's correct/incorrect input
+    flashcards: List[dict]  
+    answers: List[bool]   
 
 
-# ----------------------------
-# Endpoints
-# ----------------------------
 @router.post("/flashcards")
 def create_flashcards(
     req: FlashcardRequest,

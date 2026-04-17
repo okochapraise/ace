@@ -1,4 +1,3 @@
-import 'package:ace/services/auth_service.dart';
 import 'package:dio/dio.dart';
 import '../models/flashcard.dart';
 import '../utils/secure_storage.dart';
@@ -10,7 +9,7 @@ class FlashcardService {
   FlashcardService() {
     _dio = Dio(
       BaseOptions(
-        baseUrl: "http://127.0.0.1:8000", // NOT localhost
+        baseUrl: "http://127.0.0.1:8000", 
       ),
     );
 
@@ -19,7 +18,7 @@ class FlashcardService {
     onRequest: (options, handler) async {
       final token = await _storage.getToken();
 
-      print("TOKEN USED: $token");   // 👈 ADD THIS
+      print("TOKEN USED: $token");   
 
       if (token != null) {
         options.headers["Authorization"] = "Bearer $token";

@@ -2,7 +2,7 @@ import os
 from dotenv import load_dotenv
 import google.generativeai as genai
 
-# Load environment variables
+
 load_dotenv()
 genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
 
@@ -35,11 +35,10 @@ def generate_summary(text: str, max_tokens: int = 4096) -> str:
             }
         )
 
-        # 1️⃣ Direct text output
+     
         if hasattr(response, "text") and response.text:
             return response.text.strip()
 
-        # 2️⃣ Fallback: extract from candidates
         summary_parts = []
         if getattr(response, "candidates", None):
             for c in response.candidates:
@@ -67,9 +66,6 @@ def summarize_long_text(text: str, chunk_size: int = 5000) -> str:
     if not text.strip():
         return "No text provided."
 
-    # ---------------------------
-    # Chunk the text
-    # ---------------------------
     lines = text.split("\n")
     chunks = []
     current = ""
@@ -81,21 +77,14 @@ def summarize_long_text(text: str, chunk_size: int = 5000) -> str:
     if current.strip():
         chunks.append(current.strip())
 
-    # ---------------------------
-    # Summarize each chunk
-    # ---------------------------
     chunk_summaries = []
     for chunk in chunks:
         chunk_summaries.append(generate_summary(chunk))
 
-    # ---------------------------
-    # Combine summaries
-    # ---------------------------
+    
     combined_summary = "\n\n".join(chunk_summaries)
 
-    # ---------------------------
-    # Optional: summarize again for final concise version
-    # ---------------------------
+   
     if len(chunks) > 1:
         final_summary = generate_summary(combined_summary)
         return final_summary

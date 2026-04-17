@@ -27,7 +27,6 @@ async def ocr_endpoint(file: UploadFile = File(...)):
     filename = file.filename or ""
     mime_type = file.content_type or ""
 
-    # Stream large PDFs directly
     if filename.lower().endswith(".pdf") or mime_type.lower() == "application/pdf" or content.startswith(b"%PDF"):
         if should_stream_pdf(content):
             return StreamingResponse(stream_text_from_pdf(content), media_type="text/plain")
@@ -39,7 +38,7 @@ async def ocr_endpoint(file: UploadFile = File(...)):
             content={"text": "", "message": text if "Error" in text else "No readable text found"}
         )
 
-    # Clean + autocorrect if small
+
     cleaned = clean_text(text)
     if len(cleaned) < 100_000:
         cleaned = autocorrect_text(cleaned)

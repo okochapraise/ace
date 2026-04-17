@@ -131,50 +131,72 @@ try {
         data: (cards) {
           final card = cards[currentIndex];
 
-          return Padding(
-            padding: const EdgeInsets.all(16),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  card.question,
-                  style: const TextStyle(
-                    fontSize: 22,
-                    fontWeight: FontWeight.bold,
+          return Card(
+            child: Padding(
+              padding: const EdgeInsets.all(24),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    card.question,
+                    style: const TextStyle(
+                      fontSize: 22,
+                      fontWeight: FontWeight.bold,
+                    ),
+                    textAlign: TextAlign.center,
                   ),
-                  textAlign: TextAlign.center,
-                ),
-                const SizedBox(height: 20),
-                Text(
-                  card.shownAnswer,
-                  style: const TextStyle(fontSize: 18),
-                  textAlign: TextAlign.center,
-                ),
-                const SizedBox(height: 10),
-                Text(
-                  "Difficulty: ${card.difficulty}",
-                  style: const TextStyle(color: Colors.grey),
-                ),
-                const SizedBox(height: 30),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    ElevatedButton(
-                      onPressed: () => _answer(false, card, cards.length),
-                      child: const Text("Incorrect"),
+                  const SizedBox(height: 20),
+                  Text(
+                    card.shownAnswer,
+                    style: const TextStyle(fontSize: 18),
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(height: 10),
+                  Text(
+                    "Difficulty: ${card.difficulty}",
+                    style: const TextStyle(color: Colors.grey),
+                  ),
+                  const SizedBox(height: 30),
+                  Row(
+              children: [
+                Expanded(
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+            backgroundColor: Colors.red,
+            minimumSize: const Size(0, 50),
                     ),
-                    ElevatedButton(
-                      onPressed: () => _answer(true, card, cards.length),
-                      child: const Text("Correct"),
+                    onPressed: () => _answer(false, card, cards.length),
+                    child: const Text(
+            "Incorrect",
+            style: TextStyle(fontSize: 16),
                     ),
-                  ],
+                  ),
                 ),
-                const SizedBox(height: 20),
-                Text(
-                  "Card ${currentIndex + 1} of ${cards.length}",
-                  style: const TextStyle(fontWeight: FontWeight.w500),
+            
+                const SizedBox(width: 16),
+            
+                Expanded(
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+            backgroundColor: Colors.black,
+            minimumSize: const Size(0, 50),
+                    ),
+                    onPressed: () => _answer(true, card, cards.length),
+                    child: const Text(
+            "Correct",
+            style: TextStyle(fontSize: 16),
+                    ),
+                  ),
                 ),
               ],
+            ),
+                  const SizedBox(height: 20),
+                  Text(
+                    "Card ${currentIndex + 1} of ${cards.length}",
+                    style: const TextStyle(fontWeight: FontWeight.w500),
+                  ),
+                ],
+              ),
             ),
           );
         },

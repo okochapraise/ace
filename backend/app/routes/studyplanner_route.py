@@ -6,7 +6,7 @@ from app.services.studyplanner_service import generate_study_plan
 router = APIRouter(prefix="/study-plan", tags=["Study Planner"])
 
 
-# Request body
+
 class StudyPlanRequest(BaseModel):
     text_length: int
     available_minutes: int

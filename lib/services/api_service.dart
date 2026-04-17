@@ -3,7 +3,7 @@ import 'package:http/http.dart' as http;
 import '../utils/secure_storage.dart';
 
 class ApiService {
-  final String baseUrl = "http://127.0.0.1:8000"; // Android emulator
+  final String baseUrl = "http://127.0.0.1:8000"; 
   final SecureStorage _storage = SecureStorage();
 
   Future<Map<String, dynamic>?> getMe() async {

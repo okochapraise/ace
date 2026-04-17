@@ -5,7 +5,7 @@ DATABASE_URL = "sqlite:///./ace.db"
 
 engine = create_engine(
     DATABASE_URL,
-    connect_args={"check_same_thread": False}  # needed for SQLite
+    connect_args={"check_same_thread": False}  
 )
 
 SessionLocal = sessionmaker(
@@ -17,7 +17,7 @@ SessionLocal = sessionmaker(
 Base = declarative_base()
 
 
-# Dependency to get DB session
+
 def get_db():
     db = SessionLocal()
     try:

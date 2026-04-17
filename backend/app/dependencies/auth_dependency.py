@@ -15,7 +15,6 @@ def get_current_user(
 ):
     token = credentials.credentials
 
-    # Debug print (helps you see token reaching backend)
     print("TOKEN RECEIVED:", token)
 
     payload = verify_access_token(token)

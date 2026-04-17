@@ -21,6 +21,7 @@ class UploadNotesScreen extends ConsumerWidget {
   title: const Text("Upload / Scan Notes"),
   centerTitle: true,
   backgroundColor: Colors.red,
+  
   actions: [
      IconButton(
     icon: const Icon(Icons.bar_chart),
@@ -51,8 +52,31 @@ class UploadNotesScreen extends ConsumerWidget {
       body: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
+  crossAxisAlignment: CrossAxisAlignment.stretch,
+  children: [
+
+    /// HEADER
+    Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: const [
+        Text(
+          "Study Assistant",
+          style: TextStyle(
+            fontSize: 26,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+
+        SizedBox(height: 6),
+
+        Text(
+          "Upload notes to generate summaries and flashcards",
+          style: TextStyle(color: Colors.grey),
+        ),
+      ],
+    ),
+
+    const SizedBox(height: 30),
             ElevatedButton.icon(
               onPressed: () => _showFilePicker(context, ocrNotifier),
               icon: const Icon(Icons.upload_file),
@@ -103,7 +127,6 @@ class UploadNotesScreen extends ConsumerWidget {
 
             const SizedBox(height: 20),
 
-            // Show OCR progress/errors in UI
             ocrState.extractedResult.when(
               data: (result) => result.text.isNotEmpty
                   ? Text(

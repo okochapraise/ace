@@ -5,16 +5,10 @@ from app.services.mood_service import get_mood_recommendation
 router = APIRouter()
 
 
-# -----------------------------
-# Request Model
-# -----------------------------
 class MoodRequest(BaseModel):
     mood: str
 
 
-# -----------------------------
-# Endpoint
-# -----------------------------
 @router.post("/mood")
 def mood_endpoint(req: MoodRequest):
 

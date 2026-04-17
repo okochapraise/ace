@@ -12,10 +12,6 @@ router = APIRouter(prefix="/auth", tags=["Auth"])
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
-
-# ----------------------------
-# Register
-# ----------------------------
 @router.post("/register")
 def register_user(request: UserRegister, db: Session = Depends(get_db)):
     existing_user = db.query(User).filter(User.email == request.email).first()
@@ -37,9 +33,6 @@ def register_user(request: UserRegister, db: Session = Depends(get_db)):
     return {"message": "User registered successfully"}
 
 
-# ----------------------------
-# Login
-# ----------------------------
 @router.post("/login")
 def login_user(request: UserLogin, db: Session = Depends(get_db)):
     user = db.query(User).filter(User.email == request.email).first()
@@ -58,9 +51,6 @@ def login_user(request: UserLogin, db: Session = Depends(get_db)):
     }
 
 
-# ----------------------------
-# Protected Route
-# ----------------------------
 @router.get("/me")
 def get_profile(current_user: User = Depends(get_current_user)):
     return {

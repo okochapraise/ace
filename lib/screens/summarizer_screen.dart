@@ -66,35 +66,50 @@ class _SummarizerScreenState extends ConsumerState<SummarizerScreen> {
 
                 const SizedBox(height: 16),
 
-                /// 🔊 TTS CONTROLS (SAME AS EXTRACT SCREEN)
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    ElevatedButton.icon(
-                      icon: const Icon(Icons.volume_up),
-                      label: const Text("Read Summary"),
-                      onPressed: summaryText.trim().isEmpty
-                          ? null
-                          : () async {
-                              setState(() => isSpeaking = true);
-                              await _tts.speak(summaryText);
-                              setState(() => isSpeaking = false);
-                            },
-                    ),
-                    ElevatedButton.icon(
-                      icon: const Icon(Icons.stop),
-                      label: const Text("Stop"),
-                      onPressed: () async {
-                        setState(() => isSpeaking = false);
-                        await _tts.stop();
-                      },
-                    ),
-                  ],
-                ),
+
+             Row(
+  children: [
+    Expanded(
+      child: ElevatedButton.icon(
+        icon: const Icon(Icons.volume_up),
+        label: const Text(
+          "Read Summary",
+          overflow: TextOverflow.ellipsis,
+        ),
+        style: ElevatedButton.styleFrom(
+          padding: const EdgeInsets.symmetric(vertical: 14),
+        ),
+        onPressed: summaryText.trim().isEmpty
+            ? null
+            : () async {
+                setState(() => isSpeaking = true);
+                await _tts.speak(summaryText);
+                setState(() => isSpeaking = false);
+              },
+      ),
+    ),
+
+    const SizedBox(width: 12),
+
+    Expanded(
+      child: ElevatedButton.icon(
+        icon: const Icon(Icons.stop),
+        label: const Text("Stop"),
+        style: ElevatedButton.styleFrom(
+          padding: const EdgeInsets.symmetric(vertical: 14),
+        ),
+        onPressed: () async {
+          setState(() => isSpeaking = false);
+          await _tts.stop();
+        },
+      ),
+    ),
+  ],
+),
 
                 const SizedBox(height: 16),
 
-                /// 📚 FLASHCARDS
+           
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     minimumSize: const Size.fromHeight(50),
@@ -107,7 +122,7 @@ class _SummarizerScreenState extends ConsumerState<SummarizerScreen> {
                   onPressed: summaryText.trim().isEmpty
                       ? null
                       : () {
-                          _tts.stop(); // stop TTS before navigating
+                          _tts.stop(); 
                           Navigator.push(
                             context,
                             MaterialPageRoute(

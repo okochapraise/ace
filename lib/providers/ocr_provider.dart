@@ -32,7 +32,7 @@ class OcrNotifier extends StateNotifier<OcrState> {
   OcrNotifier(this._service) : super(OcrState.initial());
   final OcrService _service;
 
-  /// Pick an image from gallery
+
   Future<void> pickImage() async {
     final picked = await ImagePicker().pickImage(source: ImageSource.gallery);
     if (picked != null) {
@@ -40,7 +40,6 @@ class OcrNotifier extends StateNotifier<OcrState> {
     }
   }
 
-  /// Pick a PDF file
   Future<void> pickPdf() async {
     final result = await FilePicker.platform.pickFiles(
       type: FileType.custom,
@@ -51,7 +50,6 @@ class OcrNotifier extends StateNotifier<OcrState> {
     }
   }
 
-  /// Upload selected file and extract text
   Future<OcrResult?> extractText() async {
     if (state.selectedFile == null) return null;
     state = state.copyWith(extractedResult: const AsyncValue.loading());

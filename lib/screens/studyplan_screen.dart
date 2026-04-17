@@ -112,8 +112,7 @@ class _StudyPlannerScreenState
 
             const SizedBox(height: 10),
 
-            /// CONTINUE BUTTON
-            /// CONTINUE BUTTON
+           
 SizedBox(
   width: double.infinity,
   child: ElevatedButton(
